@@ -1,96 +1,38 @@
 apiVersion: v1
-kind: LimitRange
-metadata:
-  name: mem-limit-range
-spec:
-  limits:
-    - default:
-        memory: 350Mi
-      defaultRequest:
-        memory: 150Mi
-      type: Container
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: secret
-type: Opaque
-data:
-  username: YWRtaW4=
-  password: YWRtaW4=
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: rabbitmq
-  labels:
-    app: rabbitmq
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: rabbitmq
-  template:
-    metadata:
-      labels:
-        app: rabbitmq
-    spec:
-      containers:
-        - name: rabbitmq
-          image: rabbitmq:3.7-management
-          imagePullPolicy: IfNotPresent
-          ports:
-            - name: amqp
-              containerPort: 5672
-            - name: http
-              containerPort: 15672
-          env:
-            - name: "RABBITMQ_DEFAULT_USER"
-              valueFrom:
-                secretKeyRef:
-                  name: "secret"
-                  key: "username"
-            - name: "RABBITMQ_DEFAULT_PASS"
-              valueFrom:
-                secretKeyRef:
-                  name: "secret"
-                  key: "password"
----
-apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: rabbitmq
-  name: rabbitmq
+    app: elasticsearch
+  name: elasticsearch
 spec:
   type: ClusterIP
   selector:
-    app: rabbitmq
+    app: elasticsearch
   ports:
-    - name: amqp
-      port: 5672
-      targetPort: 5672
+    - name: http-port
+      port: 9200
+      targetPort: 9200
       protocol: TCP
-    - name: http
-      port: 15672
-      targetPort: 15672
+    - name: node-port
+      port: 9300
+      targetPort: 9300
       protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: rabbitmq
-  name: rabbitmq-nodeport
+    app: elasticsearch
+  name: elasticsearch-node-port
 spec:
   type: NodePort
   selector:
-    app: rabbitmq
+    app: elasticsearch
   ports:
-    - name: service
-      port: 15672
-      targetPort: 15672
-      nodePort: 30567
+    - name: http
+      port: 9200
+      targetPort: 9200
+      nodePort: 30200
       protocol: TCP
 ---
 apiVersion: apps/v1
@@ -112,15 +54,11 @@ spec:
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
-          resources:
-            limits:
-              memory: "2048Mi"
-            requests:
-              memory: "1024Mi"
+          imagePullPolicy: Always
           ports:
-            - name: "rest"
+            - name: http-port
               containerPort: 9200
-            - name: "node"
+            - name: node-port
               containerPort: 9300
           env:
             - name: "discovery.type"
@@ -130,20 +68,146 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: elasticsearch
-  name: elasticsearch
+    app: kibana
+  name: kibana
 spec:
   type: ClusterIP
   selector:
-    app: elasticsearch
+    app: kibana
   ports:
-    - name: "rest"
-      port: 9200
-      targetPort: 9200
+    - name: http-port
+      port: 5601
+      targetPort: 5601
       protocol: TCP
-    - name: "node"
-      port: 9300
-      targetPort: 9300
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kibana
+  name: kibana-node-port
+spec:
+  type: NodePort
+  selector:
+    app: kibana
+  ports:
+    - name: http
+      port: 5601
+      targetPort: 5601
+      nodePort: 30601
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  labels:
+    app: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+        - name: kibana
+          image: docker.elastic.co/kibana/kibana:6.4.3
+          ports:
+            - name: "http-port"
+              containerPort: 5601
+          env:
+            - name: "ELASTICSEARCH_URL"
+              value: "http://elasticsearch:9200"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rabbitmq
+  name: rabbitmq
+spec:
+  type: ClusterIP
+  selector:
+    app: rabbitmq
+  ports:
+    - name: "amqp-port"
+      port: 5672
+      targetPort: 5672
+      protocol: TCP
+    - name: "http-port"
+      port: 15672
+      targetPort: 15672
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rabbitmq
+  name: rabbitmq-node-port
+spec:
+  type: NodePort
+  selector:
+    app: rabbitmq
+  ports:
+    - name: "http-port"
+      port: 15672
+      targetPort: 15672
+      nodePort: 30567
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3.7-management
+          ports:
+            - name: "amqp-port"
+              containerPort: 5672
+            - name: "http-port"
+              containerPort: 15672
+          env:
+            - name: "RABBITMQ_DEFAULT_USER"
+              value: "admin"
+            - name: "RABBITMQ_DEFAULT_PASS"
+              value: "admin"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: logstash
+  name: logstash
+spec:
+  type: ClusterIP
+  selector:
+    app: logstash
+  ports:
+    - name: "port-5000"
+      port: 5000
+      targetPort: 5000
+      protocol: TCP
+    - name: "port-9600"
+      port: 9600
+      targetPort: 9600
       protocol: TCP
 ---
 apiVersion: apps/v1
@@ -176,89 +240,17 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: logstash
-  name: logstash-service
+    app: postgres
+  name: postgres
 spec:
   type: ClusterIP
   selector:
-    app: logstash
+    app: postgres
   ports:
-    - name: "port-5000"
-      port: 5000
-      targetPort: 5000
+    - name: "postgres-port"
+      port: 5432
+      targetPort: 5432
       protocol: TCP
-    - name: "port-9600"
-      port: 9600
-      targetPort: 9600
-      protocol: TCP
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: kibana
-  labels:
-    app: kibana
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: kibana
-  template:
-    metadata:
-      labels:
-        app: kibana
-    spec:
-      containers:
-        - name: kibana
-          image: docker.elastic.co/kibana/kibana:6.4.3
-          ports:
-            - name: "port-5601"
-              containerPort: 5601
-          env:
-            - name: ELASTICSEARCH_URL
-              value: http://elasticsearch:9200
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: kibana
-  name: kibana
-spec:
-  type: ClusterIP
-  selector:
-    app: kibana
-  ports:
-    - name: "port-5601"
-      port: 5601
-      targetPort: 5601
-      protocol: TCP
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: kibana
-  name: kibana-nodeport
-spec:
-  type: NodePort
-  selector:
-    app: kibana
-  ports:
-    - name: service
-      port: 5601
-      targetPort: 5601
-      nodePort: 30601
-      protocol: TCP
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: postgres-secret
-type: Opaque
-data:
-  username: cG9zdGdyZXM=
-  password: cG9zdGdyZXM=
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -283,28 +275,43 @@ spec:
             - name: "port-5432"
               containerPort: 5432
           env:
-            - name: POSTGRES_DB
-              value: tasks
-            - name: POSTGRES_USER
-              value: postgres
-            - name: POSTGRES_PASSWORD
-              value: postgres
+            - name: "POSTGRES_DB"
+              value: "tasks"
+            - name: "POSTGRES_USER"
+              value: "postgres"
+            - name: "POSTGRES_PASSWORD"
+              value: "postgres"
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: pgadmin4
   labels:
     app: postgres
-  name: postgres
 spec:
   type: ClusterIP
-  selector:
-    app: postgres
   ports:
-    - name: "port-5432"
-      port: 5432
-      targetPort: 5432
-      protocol: TCP
+    - name: http
+      port: 5050
+      targetPort: 5050
+  selector:
+    app: pgadmin4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin4-node-port
+  labels:
+    app: postgres
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 5050
+      targetPort: 5050
+      nodePort: 30050
+  selector:
+    app: pgadmin4
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -325,49 +332,86 @@ spec:
       containers:
         - name: pgadmin4
           image: fenglc/pgadmin4
+          imagePullPolicy: "IfNotPresent"
           ports:
             - name: pgadmin
               containerPort: 5050
           env:
             - name: "DEFAULT_USER"
-              valueFrom:
-                secretKeyRef:
-                  name: "secret"
-                  key: "username"
+              value: "admin"
             - name: "DEFAULT_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  name: "secret"
-                  key: "password"
+              value: "admin"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
   labels:
-    app: postgres
+    app: tasks
+  name: tasks
 spec:
   type: ClusterIP
-  ports:
-    - name: http
-      port: 5050
-      targetPort: 5050
   selector:
-    app: pgadmin4
+    app: tasks
+  ports:
+    - name: "http-port"
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: tasks-node-port
   labels:
-    app: pgadmin4
-  name: pgadmin4-nodeport
+    app: tasks
 spec:
   type: NodePort
-  selector:
-    app: pgadmin4
   ports:
-    - name: service
-      port: 5050
-      targetPort: 5050
-      nodePort: 30050
-      protocol: TCP
+    - name: "http-port"
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
+  selector:
+    app: tasks
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tasks
+  labels:
+    app: tasks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tasks
+  template:
+    metadata:
+      labels:
+        app: tasks
+    spec:
+      containers:
+        - name: tasks
+          image: tasks:latest
+          imagePullPolicy: Never
+          ports:
+            - name: "http-port"
+              containerPort: 8080
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: tasks
+  labels:
+    app: tasks
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: tasks
+    namespaceSelector:
+      any: true
+  endpoints:
+    - port: http-port
+      path: /actuator/prometheus
+      interval: 5s

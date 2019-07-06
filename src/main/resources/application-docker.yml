@@ -1,14 +1,15 @@
 spring:
   liquibase:
     url: jdbc:postgresql://postgres:5432/tasks
-    user: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    drop-first: false
+    user: postgres
+    password: postgres
   datasource:
     url: jdbc:postgresql://postgres:5432/tasks
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    username: postgres
+    password: postgres
   rabbitmq:
-    host: rabbitmq
+    host: rabbitmq.default.svc.cluster.local
     port: 5672
-    username: ${DEFAULT_USER}
-    password: ${DEFAULT_PASSWORD}
+    username: admin
+    password: admin
