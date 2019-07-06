@@ -1,0 +1,17 @@
+spring:
+  liquibase:
+    url: jdbc:postgresql://localhost:5432/tasks
+    drop-first: true
+    user: postgres
+    password: postgres
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tasks
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin

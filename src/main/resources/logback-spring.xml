@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    ​
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+
+    <springProperty scope="context" name="hostname" source="hostname"/>
+
+    <springProperty scope="context" name="rabbitMqHost" source="spring.rabbitmq.host"/>
+    <springProperty scope="context" name="rabbitMqPort" source="spring.rabbitmq.port"/>
+    <springProperty scope="context" name="rabbitMqUsername" source="spring.rabbitmq.username"/>
+    <springProperty scope="context" name="rabbitMqPassword" source="spring.rabbitmq.password"/>
+
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="amqp" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+        <layout>
+            <pattern>
+                {
+                "severity": "%level",
+                "service": "${springAppName:-}",
+                "host" : "${hostname:-}",
+                "trace": "%X{X-B3-TraceId:-}",
+                "span": "%X{X-B3-SpanId:-}",
+                "parent": "%X{X-B3-ParentSpanId:-}",
+                "exportable": "%X{X-Span-Export:-}",
+                "pid": "${PID:-}",
+                "thread": "%thread",
+                "class": "%logger{40}",
+                "rest": "%message"
+                }
+            </pattern>
+        </layout>
+
+        <host>${rabbitMqHost:-}</host>
+        <port>${rabbitMqPort:-}</port>
+        <username>${rabbitMqUsername:-}</username>
+        <password>${rabbitMqPassword:-}</password>
+
+        <applicationId>${springAppName:-}</applicationId>
+        <declareExchange>true</declareExchange>
+        <exchangeType>fanout</exchangeType>
+        <exchangeName>logging</exchangeName>
+
+        <generateId>true</generateId>
+        <charset>UTF-8</charset>
+        <durable>true</durable>
+        <deliveryMode>PERSISTENT</deliveryMode>
+    </appender>
+    ​
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="amqp"/>
+    </root>
+
+</configuration>

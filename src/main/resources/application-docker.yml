@@ -1,0 +1,14 @@
+spring:
+  liquibase:
+    url: jdbc:postgresql://postgres:5432/tasks
+    user: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  datasource:
+    url: jdbc:postgresql://postgres:5432/tasks
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: ${DEFAULT_USER}
+    password: ${DEFAULT_PASSWORD}

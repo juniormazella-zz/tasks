@@ -1,0 +1,78 @@
+version:  '3.7'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - tasks-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
+    environment:
+      - "discovery.type=single-node"
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - tasks-network
+
+  logstash:
+    image: itau_logstash:latest
+    build:
+      context: logstash/
+    ports:
+      - 5000:5000
+      - 9600:9600
+    networks:
+      - tasks-network
+
+  postgres:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tasks
+    volumes:
+      - "${HOME}/Docker/postgres/data/:/data/postgres"
+      - "./postgres/create-schema.sql:/docker-entrypoint-initdb.d/1-create-schema.sql:"
+    ports:
+      - 5432:5432
+    networks:
+      - tasks-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.3
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    networks:
+      - tasks-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 5050:80
+    networks:
+      - tasks-network
+
+  tasks:
+    image: tasks:latest
+    ports:
+      - 8080:8080
+    networks:
+      - tasks-network
+
+networks:
+  tasks-network:
+    driver: bridge

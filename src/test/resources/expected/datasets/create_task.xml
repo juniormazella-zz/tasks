@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <TSK.TASK ID="1" DESCRIPTION="Implement serializer of Task class" STATUS="PENDING" POINTS="3"/>
+  <TSK.TASK ID="2" DESCRIPTION="Create a wrapper class of Task cass" STATUS="PENDING" POINTS="1"/>
+  <TSK.TASK ID="3" DESCRIPTION="Implement desserializer of Task class" STATUS="PENDING" POINTS="3"/>
+  <TSK.TASK ID="4" DESCRIPTION="Create controller to aggregate Task class" STATUS="COMPLETED" POINTS="1"/>
+  <TSK.TASK ID="5" DESCRIPTION="Create endpoint to retrieve information from Task by id" STATUS="COMPLETED" POINTS="3"/>
+  <TSK.TASK ID="6" DESCRIPTION="Create endpoint to delete information from Task by id" STATUS="COMPLETED" POINTS="3"/>
+  <TSK.TASK ID="7" DESCRIPTION="Create endpoint to change information from Task by id" STATUS="COMPLETED" POINTS="3"/>
+  <TSK.TASK ID="8" DESCRIPTION="Create endpoint to list information from Task" STATUS="PENDING" POINTS="3"/>
+  <TSK.TASK ID="9" DESCRIPTION="Create controller advice handle application exception" STATUS="PENDING" POINTS="5"/>
+  <TSK.TASK ID="10" DESCRIPTION="Create script sql of Task entity" STATUS="PENDING" POINTS="3"/>
+</dataset>

@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: '@project.artifactId@'
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    check-change-log-location: true
+    default-schema: TSK
+  datasource:
+    name: tasks
+    driver-class-name: org.postgresql.Driver
+    data:
+      jpa:
+        database: POSTGRES
+        database-platform: POSTGRES
+      jta:
+        enabled: true
+
+hostname: ${env.HOSTNAME:default}
+
+info:
+  app:
+    name: '@project.artifactId@'
+    version: '@project.version@'
+  java-vendor: ${java.specification.vendor}
+  java-version: ${java.version}
+
+management:
+  endpoints:
+    health:
+      show-details: always
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,liquibase,threaddump
