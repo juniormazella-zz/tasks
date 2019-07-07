@@ -9,5 +9,8 @@ addons:
     organization: juniormazella-github
     token:
       secure: "Qkoz5oNs++yWEtitSCwU5Tn22T/+y6QWMnTFefW1k8DYtOOdknoF7rkJA7Q6HkCtzJmIlE0RuFEwqn8bna5SmRJvpaXkWqde+DOCFrFo+abvLMGtsbaoZxybTiylPe+Jak3GwsjZjQf1eI+rpu3S6PcCYt3Sg0OE1PaeQ8sP1wOCDmeCbpus44usFyS2Vpk5w9wftZbkIMz//YkUiSateUyeah9DLihGkaT0thkr1xS5A4s3+GhMcvkqol9X30c2rOOVy8cobmdWIV0Uy/8EYVNIEoASIS1mmagLhxNTcv4OkRAUIQ982OVIVPOzBoZUGjRoQ2A2HXjQfrHwnaGXf56+zvjKz6p0bHO52TzP2CFFPNkz+M9RvHS5cnuIpeBNteuu1Nk4ThshORwrgk//QU25mo1SQ+cepsrHxWrToe6YPXaNoKmwodMazQsy16pgAsjz9gzOAhwfX2WcmRSIoXWXu6rvGAZ7oYySy0ACZ0axxjzRWWmeu6M60yUnIghwrKM1tkwv/WO1sGuq0SPnHfrpxo9sQhQJn5V3UAPN1xa9LCPiPWx+YL2GTbDDr5Qid8tceMTXh6EDwiF0Bkds0ud4eTHsx/8P/Jc2J1gErFLwQbeMQEST2XSIRK5b9QOaHFJO8mHK+3oDtb0QDO8a5sBhXkRboLWuZpivQPHnu8c="
+before_script:
+  - echo 'America/Sao Paulo' | sudo tee /etc/timezone
+  - sudo dpkg-reconfigure --frontend noninteractive tzdata
 script:
 - mvn clean install sonar:sonar -Dsonar.projectKey=juniormazella_tasks
