@@ -1,64 +1,64 @@
 {
   "content": [
     {
+      "id": 5,
+      "creationDate": 1546862400000,
+      "status": "COMPLETED",
+      "description": "Create endpoint to retrieve information from Task by id",
+      "points": 3
+    },
+    {
+      "id": 7,
+      "creationDate": 1546862400000,
+      "status": "COMPLETED",
+      "description": "Create endpoint to change information from Task by id",
+      "points": 3
+    },
+    {
       "id": 6,
-      "creationDate": 1546869600000,
+      "creationDate": 1546862400000,
       "status": "COMPLETED",
       "description": "Create endpoint to delete information from Task by id",
       "points": 3
     },
     {
       "id": 8,
-      "creationDate": 1546869600000,
+      "creationDate": 1546862400000,
       "status": "PENDING",
       "description": "Create endpoint to list information from Task",
       "points": 3
     },
     {
-      "id": 7,
-      "creationDate": 1546869600000,
-      "status": "COMPLETED",
-      "description": "Create endpoint to change information from Task by id",
-      "points": 3
+      "id": 2,
+      "creationDate": 1546862400000,
+      "status": "PENDING",
+      "description": "Create a wrapper class of Task cass",
+      "points": 1
     },
     {
       "id": 1,
-      "creationDate": 1546869600000,
+      "creationDate": 1546862400000,
       "status": "PENDING",
       "description": "Implement serializer of Task class",
       "points": 3
     },
     {
       "id": 3,
-      "creationDate": 1546869600000,
+      "creationDate": 1546862400000,
       "status": "PENDING",
       "description": "Implement desserializer of Task class",
       "points": 3
     },
     {
-      "id": 2,
-      "creationDate": 1546869600000,
-      "status": "PENDING",
-      "description": "Create a wrapper class of Task cass",
-      "points": 1
-    },
-    {
-      "id": 5,
-      "creationDate": 1546869600000,
-      "status": "COMPLETED",
-      "description": "Create endpoint to retrieve information from Task by id",
-      "points": 3
-    },
-    {
       "id": 9,
-      "creationDate": 1560610800000,
+      "creationDate": 1560600000000,
       "status": "PENDING",
       "description": "Create controller advice handle application exception",
       "points": 5
     },
     {
       "id": 4,
-      "creationDate": 1560870000000,
+      "creationDate": 1560859200000,
       "status": "COMPLETED",
       "description": "Create controller to aggregate Task class",
       "points": 1
