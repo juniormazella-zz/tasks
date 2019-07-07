@@ -72,7 +72,7 @@ public class Task {
 	 * @return
 	 */
 	public Long getCreationDateAsTimestamp() {
-		return creationDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+		return creationDate.atZone(ZoneId.of("UTC")).toInstant().toEpochMilli();
 	}
 	
 	/**
