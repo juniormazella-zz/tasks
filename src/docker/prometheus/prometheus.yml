@@ -3,8 +3,26 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  - job_name: 'spring-actuator'
+  - job_name: 'batman-actuator'
     metrics_path: '/actuator/prometheus'
-    scrape_interval: 1s
+    scrape_interval: 2s
     static_configs:
-      - targets: ['tasks:8080']
+      - targets: ['batman:8080']
+
+  - job_name: 'superman-actuator'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['superman:8080']
+
+  - job_name: 'thor-actuator'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['thor:8080']
+
+  - job_name: 'hal-jordan-actuator'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['hal-jordan:8080']

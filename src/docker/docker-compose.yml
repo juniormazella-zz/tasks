@@ -1,4 +1,4 @@
-version:  '2.1'
+version:  '3.7'
 
 services:
   rabbitmq:
@@ -10,10 +10,10 @@ services:
       - 5672:5672
       - 15672:15672
     healthcheck:
-      test: ["CMD-SHELL", "curl http://localhost:15672/api/cluster-name"]
-      interval: 10s
+      test: ["CMD", "curl", "-f", "http://admin:admin@localhost:15672/api/overview"]
+      interval: 30s
       timeout: 10s
-      retries: 10
+      retries: 20
     networks:
       - tasks-network
 
@@ -24,11 +24,6 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-    healthcheck:
-      test: ["CMD-SHELL", "curl http://localhost:9200/_cat/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - tasks-network
 
@@ -63,9 +58,6 @@ services:
       ELASTICSEARCH_URL: http://elasticsearch:9200
     ports:
       - 5601:5601
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
     networks:
       - tasks-network
 
@@ -99,8 +91,33 @@ services:
     networks:
       - tasks-network
 
-  tasks:
+  batman:
     image: tasks:latest
+    hostname: batman
+    expose:
+      - 8080
+    networks:
+      - tasks-network
+
+  hal-jordan:
+    image: tasks:latest
+    hostname: hal-jordan
+    expose:
+      - 8080
+    networks:
+      - tasks-network
+
+  superman:
+    image: tasks:latest
+    hostname: superman
+    expose:
+      - 8080
+    networks:
+      - tasks-network
+
+  thor:
+    image: tasks:latest
+    hostname: thor
     expose:
       - 8080
     networks:
