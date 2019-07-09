@@ -5,7 +5,8 @@
 
     Maven v3.5+
     Jdk v1.8.0_211+
-    Docker version v18.09.2+
+    Docker v18.09.2+
+    Docker-compose v1.24.0
 
 # Technologies Involved
 
@@ -19,24 +20,3 @@
     Docker
     Prometheus
     Grafana
-
-# Requirements
-    
-Create a rest api that stores and updates "tasks" (GET, POST, PUT, DELETE).
-
-Details:
-    
-    
-
-# About solution
-
-# How to build and run tests of project
-
-    mvn clean package
-    
-# How to build and generate the docker image of application
-
-    mvn clean package docker:build
-    
-# How to construct in local cloud environment
-    
