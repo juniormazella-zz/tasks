@@ -20,3 +20,6 @@
     Docker
     Prometheus
     Grafana
+
+# Solution Architecture
+![Proposed solution architecture](https://github.com/juniormazella/tasks/blob/master/solution-architecture.png)
