@@ -33,4 +33,4 @@ For balancing the requests Nginx was used, which is not the best solution but th
 
 As a database solution was used Postgres, a database that grew the use in corporate environments.
 
-# About
+# About Implementation
