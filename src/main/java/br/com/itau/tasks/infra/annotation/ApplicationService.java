@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Class comments go here...
+ * This annotation should be used to mark any and every application layer
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 01/07/2019

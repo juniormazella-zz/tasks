@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 
 /**
- * Class comments go here...
+ * This class is the deserializer of the class {@link TaskWrapper}
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 01/07/2019

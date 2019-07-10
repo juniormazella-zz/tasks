@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class comments go here...
+ * This class is able to retrieve objects that are managed by Spring outside the context of Spring
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 01/07/2019

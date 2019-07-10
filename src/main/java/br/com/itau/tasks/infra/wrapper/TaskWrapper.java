@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Class comments go here...
+ * This class is a value object for {@link TaskWrapper}.
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 01/07/2019
@@ -19,7 +19,7 @@ import lombok.Getter;
 @JsonSerialize(using = TaskWrapperSerializer.class)
 @JsonDeserialize(using = TaskWrapperDeserializer.class)
 public class TaskWrapper {
-
-    private final Task task;
-
+	
+	private final Task task;
+	
 }

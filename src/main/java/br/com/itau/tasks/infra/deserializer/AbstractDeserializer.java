@@ -10,7 +10,8 @@ import lombok.AllArgsConstructor;
 import java.io.IOException;
 
 /**
- * Class comments go here...
+ * This class is the base class of what we call anti-corruption layer in the context of deserialization of the data received by the application,
+ * writing the deserializers we avoid the anemic model
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 01/07/2019
@@ -26,11 +27,16 @@ public abstract class AbstractDeserializer<T> extends JsonDeserializer<T> {
 	}
 	
 	/**
-	 * @param jsonNode
+	 * Any concrete implementation of this method must contain the rule to perform the deserialization of the information contained in {@link
+	 * JsonNode}
 	 *
-	 * @return
+	 * @param jsonNode
+	 * 		object with the json received in the controller
+	 *
+	 * @return a instance of typed object
 	 *
 	 * @throws IOException
+	 * 		is the type of exception that can be thrown in the event of an error in the deserialization process
 	 */
 	public abstract T deserialize(final JsonNode jsonNode) throws IOException;
 	

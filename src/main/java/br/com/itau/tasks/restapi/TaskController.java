@@ -22,21 +22,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * Class comments go here...
+ * This class exposes class services {@link Task}
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 01/07/2019
  */
 @RestController
 @AllArgsConstructor
-public class TaksController {
+public class TaskController {
 	
 	private final TaskApplicationService applicationService;
 	
 	/**
-	 * @param pageable
+	 * This method will return a page of the query performed
 	 *
-	 * @return
+	 * @param pageable
+	 * 		is a Spring object with the information that will serve as a query condition, the Sort.Direction.ASC ordering in the creationDate field is
+	 * 		set as default
+	 *
+	 * @return a value object with the information that will be serialized in return
 	 */
 	@GetMapping("/tasks")
 	public PageWrapper getTasks(@PageableDefault(sort = {"creationDate"}, direction = Sort.Direction.ASC) final Pageable pageable) {
@@ -45,9 +49,12 @@ public class TaksController {
 	}
 	
 	/**
-	 * @param taskWrapper
+	 * This method will perform the registration of a {@link Task} in the application, the http status code of return of this method is 202 - Created
 	 *
-	 * @return
+	 * @param taskRaw
+	 * 		a raw object that will give rise to an object of the {@link Task}
+	 *
+	 * @return a value object with the information that will be serialized in return
 	 */
 	@PostMapping("/tasks")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -57,9 +64,14 @@ public class TaksController {
 	}
 	
 	/**
-	 * @param taskWrapper
+	 * This method will perform an update on an existing {@link Task} in the database
 	 *
-	 * @return
+	 * @param id
+	 * 		information of {@link Task} that will be update
+	 * @param taskWrapper
+	 * 		a value object with information to update
+	 *
+	 * @return a value object with the information that will be serialized in return
 	 */
 	@PutMapping("/tasks/{id}")
 	public TaskWrapper changeTask(@PathVariable("id") final Long id, @RequestBody final TaskWrapper taskWrapper) {
@@ -71,7 +83,7 @@ public class TaksController {
 	/**
 	 * @param id
 	 *
-	 * @return
+	 * @return a value object with the information that will be serialized in return
 	 */
 	@GetMapping("/tasks/{id}")
 	public TaskWrapper getTaskById(@PathVariable("id") final Long id) {

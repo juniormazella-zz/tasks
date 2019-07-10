@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Class comments go here...
+ * This class is a value object for {@link PageWrapper}
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 02/07/2019
@@ -21,7 +21,9 @@ public class PageWrapper<E> {
 	private final Page<E> page;
 	
 	/**
-	 * @return
+	 * This method return the content of {@link Page}
+	 *
+	 * @return a page of E
 	 */
 	public List<E> getContent() {
 		final List<E> content = page.getContent();
@@ -29,14 +31,18 @@ public class PageWrapper<E> {
 	}
 	
 	/**
-	 * @return
+	 * This method return the value of current page of {@link Page}
+	 *
+	 * @return value of current page
 	 */
-	public Integer getNumber() {
+	public Integer getCurrentPage() {
 		return page.getNumber();
 	}
 	
 	/**
-	 * @return
+	 * This method return the total of pages of current query
+	 *
+	 * @return value of total pages
 	 */
 	public Integer getTotalOfPages() {
 		return page.getTotalPages();

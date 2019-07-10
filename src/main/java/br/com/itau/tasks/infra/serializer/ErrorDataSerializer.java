@@ -5,7 +5,7 @@ import br.com.itau.tasks.infra.controlleradvice.error.ErrorData;
 import java.io.IOException;
 
 /**
- * Class comments go here...
+ * This class is responsible for serializing the class {@link ErrorData}
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 02/07/2019

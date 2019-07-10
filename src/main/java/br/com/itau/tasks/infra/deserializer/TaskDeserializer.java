@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * Class comments go here...
+ * This class is the deserializer of the class {@link Task}
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 01/07/2019

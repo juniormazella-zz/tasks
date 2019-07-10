@@ -23,3 +23,14 @@
 
 # Solution Architecture
 ![Proposed solution architecture](https://github.com/juniormazella/tasks/blob/master/solution-architecture.png)
+
+Basically a very simple solution architecture was designed with the tools present.
+It was defined a fixed number of nodes thus impossible to auto scaling in this case, this is necessary because of the strategy of balancing the requests, to make this architecture auto scaling, there is a need to change the load balancer to another implementation, for example , Kong (https://konghq.com/kong/) or Istio (https://istio.io).
+
+A logging system was fully implemented using RabbitMq, Logstash, Elasticsearch and Kibana. For this to happen a "log appender" has been created in the application where every log event is published in a topic, which reaches a queue, thus enabling Logstash to receive this message, to process and record in Elasticsearch, within Kibana it is possible to view all and any log event generated on any of the application nodes.
+
+For balancing the requests Nginx was used, which is not the best solution but the easiest and fastest in this context, there is a configuration file indicating which nodes are available for routing the requests.
+
+As a database solution was used Postgres, a database that grew the use in corporate environments.
+
+# About
