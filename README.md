@@ -59,6 +59,11 @@ To start the application and all its dependencies run the command:
 This command will provide 4 nodes of the main application, the nodes are named after: thor, superman, spiderman, hal-jordan. 
 During the process it is normal to show an error when trying to connect to RabbitMq, because it is one of the last dependencies to become available, but in a few seconds it will become available.
 
+
+After all the services are available you can see the load balancing running through the url below, after some reload of the screen you will see that the request falls on another node.
+
+    http://localhost:5555/actuator/info
+
 You can check the Prometheus status at:
 
     http://localhost:9090/targets
