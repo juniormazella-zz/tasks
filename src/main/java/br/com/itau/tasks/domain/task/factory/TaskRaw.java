@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Class comments go here...
+ * This class is raw value object with information to factory a {@link br.com.itau.tasks.domain.task.Task}
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 04/07/2019

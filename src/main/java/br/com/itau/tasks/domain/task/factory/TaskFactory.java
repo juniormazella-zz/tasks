@@ -5,7 +5,7 @@ import br.com.itau.tasks.infra.factory.AbstractFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Class comments go here...
+ * This class is an implementation of {@link AbstractFactory} to factory a {@link Task} object
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 04/07/2019

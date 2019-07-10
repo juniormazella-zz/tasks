@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Class comments go here...
+ * This class sets the context for Prometheus in the application, so you can see the application metrics on Prometheus
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 02/07/2019
@@ -22,8 +22,12 @@ public class PrometheusConfiguration {
 	private final String hostname;
 	
 	/**
+	 * Constructor for {@link PrometheusConfiguration}
+	 *
 	 * @param applicationName
+	 * 		the spring application name
 	 * @param hostname
+	 * 		the value of name of current host
 	 */
 	public PrometheusConfiguration(@Value("${spring.application.name}") final String applicationName, @Value("${hostname}") final String hostname) {
 		this.applicationName = applicationName;

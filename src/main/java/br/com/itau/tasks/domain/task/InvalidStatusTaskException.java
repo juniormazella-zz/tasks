@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Class comments go here...
+ * This exception means that the status in question is not valid
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 04/07/2019
@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED)
 public class InvalidStatusTaskException extends ApplicationException {
 	
-	/**
-	 * @param message
-	 */
 	public InvalidStatusTaskException(final String message) {
 		super(message);
 	}

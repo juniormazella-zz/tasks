@@ -5,20 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Class comments go here...
+ * This exception represents that the {@link Task} being searched does not exist
  *
  * @author José Carlos Mazella Junior
  * @version 1.0 02/07/2019
  */
 @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED)
 public class TaskNotFoundException extends ApplicationException {
-
-
-    /**
-     * @param message
-     */
-    public TaskNotFoundException(final String message) {
-        super(message);
-    }
-
+	
+	public TaskNotFoundException(final String message) {
+		super(message);
+	}
+	
 }
