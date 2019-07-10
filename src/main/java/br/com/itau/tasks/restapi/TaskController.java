@@ -81,7 +81,10 @@ public class TaskController {
 	
 	
 	/**
+	 * This method will return a specific item of a {@link Task}
+	 *
 	 * @param id
+	 * 		identification of the registry to be pick
 	 *
 	 * @return a value object with the information that will be serialized in return
 	 */
@@ -92,7 +95,10 @@ public class TaskController {
 	}
 	
 	/**
+	 * This will delete an existing registry in the application, the default return http status code is 204 - No Content
+	 *
 	 * @param id
+	 * 		identification of the registry to be deleted
 	 */
 	@DeleteMapping("/tasks/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
